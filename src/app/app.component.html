@@ -1,3 +1,27 @@
-<h1 class="text-3xl font-bold underline bg-amber-800">
-  Hello world!
-</h1>
+<header class="text-gray-600 p-4 h-64px w-768px">
+  <nav class="flex space-between w-full gap-x-[22px]">
+    <img src="../assets/Notification Icon.png" class="size-28px">
+
+    <p class="flex-1">Monster Energy Dashboard</p>
+
+    <div class="flex space-between gap-x-[12px] [&>*]:size-28px">
+      <img src="../assets/Notification Icon.png">
+      <img src="../assets/Apps Icon.png">
+      <div class="bg-gray-400 rounded-full w-28">
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="bg-yellow-50 h-full flex-1">
+  <table>
+    Some random data here
+  </table>
+</main>
+
+<footer class="p-4 h-64px w-xl flex items-center justify-evenly text-gray-600">
+  <div *ngFor="let tab of tabIcons" class="flex items-center justify-center flex-col gap-y-[2px]">
+    <img src="../assets/{{tab.icon}}" class="w-20">
+    <p>{{ tab.name }}</p>
+  </div>
+</footer>
