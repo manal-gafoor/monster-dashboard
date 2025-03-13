@@ -3,8 +3,5 @@
 @tailwind utilities;
 
 body {
-    /* display: flex;
-    height: 100%;
-    width: 768px; */
     @apply flex h-full w-768;
 }

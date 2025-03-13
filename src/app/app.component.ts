@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { tabIcons } from './models/tab-icons';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +7,4 @@ import { tabIcons } from './models/tab-icons';
 })
 export class AppComponent {
   title = 'monster-dashboard';
-  tabIcons = tabIcons;
 }
