@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    @apply flex h-full w-768;
+html, body {
+    @apply flex min-h-0 w-[768px];
 }
