@@ -1,7 +1,7 @@
 <!-- Header  -->
 <header class="text-gray-600 py-4 h-[64px] w-[768px] border-b-[1px] border-gray-300">
     <nav class="flex space-between px-[10px] w-full gap-x-[22px]">
-      <img src="../assets/Notification Icon.png" class="size-[28px]">
+      <div class="bg-gray-400 rounded-md w-[28px]"></div>
   
       <p class="flex-1 text-base">Monster Energy Dashboard</p>
   
@@ -19,7 +19,7 @@
 
   <h1 class="text-[40px] font-bold text-gray-600 text-center m-5">Stores</h1>
 
-  <div class="m-3 border-[1px] border-gray-300 rounded-lg">
+  <div class="m-3 border-[1px] border-gray-300 rounded-lg h-[calc(100%-64px-64px-15px)]">
 
     <!-- Search and Filter section  -->
     <section class="p-4 flex flex-col gap-y-4 justify-start items-start">
@@ -33,7 +33,7 @@
           class="p-2 w-[200px] h-[30px] focus:outline-none text-xs"
           #search
         />
-        <button (click)="onSearch(search.value)"
+        <button (click)="onSearchStore(search.value)"
           class="text-xs bg-[#8dc63f] text-[#5c8129] p-2 rounded-tr-[5px] rounded-br-[5px]"
         >
           Search
@@ -42,55 +42,49 @@
 
       <hr class="w-full border-[1px] border-gray-200">
 
-      <!-- Filter & Sort Bar -->
-      <div class="flex justify-between">
-        <!-- Filter by Column -->
-        <select [(ngModel)]="searchColumn" class="h-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <option value="">Filter by column</option>
-          <option value="id">ID</option>
-          <option value="name">Name</option>
-          <option value="description">Description</option>
-          <option value="favourited">Favourited</option>
-          <option value="viewed">Viewed</option>
-        </select>
+      <!-- Filter Bar -->
+      <div class="flex justify-start items-center gap-x-5 [&>*]:text-xs [&>*]:text-gray-500">
+        <p>Filter by country:</p>
 
-        <!-- Sort Bar -->
-        <!-- <div class="flex space-x-2">
-          <button 
-            (click)="changeSort('id')" 
-            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">
-            ID
-            <span *ngIf="sortColumn === 'id'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
-          </button>
-          <button 
-             
-            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">
-            Name
-            <span *ngIf="sortColumn === 'name'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
-          </button>
-          <button 
-            (click)="changeSort('description')" 
-            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">
-            Description
-            <span *ngIf="sortColumn === 'description'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
-          </button>
-          <button 
-            (click)="changeSort('favourited')" 
-            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">
-            Favourited
-            <span *ngIf="sortColumn === 'favourited'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
-          </button>
-          <button 
-            (click)="changeSort('viewed')" 
-            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">
-            Viewed
-            <span *ngIf="sortColumn === 'viewed'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
-          </button>
-        </div> -->
+        <div class="flex items-center gap-x-1 [&>*]:cursor-pointer">
+          <input type="radio" id="all" name="country" value="all" checked (change)="onFilterCountry($event)"
+          class="appearance-none border-2 border-gray-200 checked:border-[#8dc63f] rounded-full w-3 h-3">
+          <label for="all">All</label>
+        </div>
+         
+        <div class="flex items-center gap-x-1 [&>*]:cursor-pointer">
+          <input type="radio" id="uk" name="country" value="uk"  (change)="onFilterCountry($event)"
+          class="appearance-none border-2  border-gray-200 checked:border-[#8dc63f] rounded-full w-3 h-3">
+          <label for="uk">UK</label>
+        </div>
+
+        <div class="flex items-center gap-x-1 [&>*]:cursor-pointer">
+          <input type="radio" id="brz" name="country" value="brz" (change)="onFilterCountry($event)"
+          class="appearance-none border-2  border-gray-200 checked:border-[#8dc63f] rounded-full w-3 h-3">
+          <label for="brz">Brazil</label>
+        </div>
+
+        <div class="flex items-center gap-x-1 [&>*]:cursor-pointer">
+          <input type="radio" id="cnd" name="country" value="cnd" (change)="onFilterCountry($event)"
+          class="appearance-none border-2  border-gray-200 checked:border-[#8dc63f] rounded-full w-3 h-3">
+          <label for="cnd">Canada</label>
+        </div>
+
+        <div class="flex items-center gap-x-1 [&>*]:cursor-pointer">
+          <input type="radio" id="frn" name="country" value="frn" (change)="onFilterCountry($event)"
+          class="appearance-none border-2  border-gray-200 checked:border-[#8dc63f] rounded-full w-3 h-3">
+          <label for="frn">France</label>
+        </div>
+       
+        <div class="flex items-center gap-x-1 [&>*]:cursor-pointer">
+          <input type="radio" id="ger" name="country" value="ger" (change)="onFilterCountry($event)"
+          class="appearance-none border-2  border-gray-200 checked:border-[#8dc63f] rounded-full w-3 h-3">
+          <label for="ger">Germany</label>
+        </div>
       </div>
     </section>
     
-    <table class="min-w-full border-collapse border-t border-b border-gray-300 items-stretch">
+    <table class="min-w-full border-collapse border-b border-gray-300 items-stretch h-[calc(100%-180px)]">
       <thead>
           <tr class="bg-[#f9fafb] border-b border-gray-300 [&>*]:text-xs [&>*]:text-gray-400">
             <th class="px-3 py-2 text-left flex-4">
@@ -124,7 +118,7 @@
       </thead>
 
       <tbody>
-          <tr *ngFor="let row of paginatedData(search.value), let i=index" class="[&>*]:border-b [&>*]:border-gray-200 [&>*]:text-xs [&>*]:text-gray-500">
+          <tr *ngFor="let row of sortedData(), let i=index" class="h-[62px] [&>*]:border-b [&>*]:border-gray-200 [&>*]:text-xs [&>*]:text-gray-500">
             <td class="p-3 flex-2">
               <div class="text-left">
                 <p>{{ row.name}}</p>
@@ -147,25 +141,25 @@
 
     <!-- Pagination -->
     <div class="flex justify-between items-center my-4 mr-3">
-      <p class="text-xs text-gray-600 px-4">Pages</p>
+      <p class="text-xs text-gray-400 px-4">Pages</p>
       <div>
         <!-- Previous Button -->
         <button 
           (click)="goToPage(currentPage - 1)" 
           [disabled]="currentPage === 1"
-          class="px-4 py-2 border border-gray-200 text-gray-400 rounded-tl-md rounded-bl-md disabled:bg-gray-200"
+          class="px-3 py-1 border border-gray-200 text-gray-500 rounded-tl-md rounded-bl-md disabled:bg-gray-100"
         >
          <
         </button>
 
         <!-- Page Number Buttons -->
-        <ng-container *ngFor="let page of pageNumbers">
+        <ng-container *ngFor="let page of pageNumbers()">
           <button 
             (click)="goToPage(page)"
             [class.bg-[#eff7e3]]="page === currentPage"
             [class.text-[#c9d3ba]]="page === currentPage"
             [class.bg-white]="page !== currentPage"
-            class="px-4 py-2 text-gray-400 border border-gray-200 transition duration-300"
+            class="px-3 py-1 text-gray-400 border-y border-r border-gray-200 transition duration-300"
           >
             {{ page }}
           </button>
@@ -174,8 +168,8 @@
         <!-- Next Button -->
         <button 
           (click)="goToPage(currentPage + 1)" 
-          [disabled]="currentPage === totalPages"
-          class="px-4 py-2 text-gray-400 border border-gray-200 rounded-tr-md rounded-br-md disabled:bg-gray-200"
+          [disabled]="currentPage === totalPages()"
+          class="px-3 py-1 text-gray-500 border-y border-r border-gray-200 rounded-tr-md rounded-br-md disabled:bg-gray-100"
         >
           >
         </button>

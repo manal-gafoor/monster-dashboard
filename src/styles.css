@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 html, body {
-    @apply flex min-h-0 w-[768px];
+    @apply flex min-h-0 w-[768px] h-full;
 }
