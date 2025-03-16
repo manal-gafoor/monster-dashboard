@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { tabIcons } from 'src/app/models/tab-icons';
-import { Data, data } from 'src/app/models/data';
+import { Data, DATA } from 'src/app/models/data';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,28 +9,34 @@ import { Data, data } from 'src/app/models/data';
 })
 export class DashboardComponent {
   tabIcons = tabIcons;
-  data: Data[] = data;
+  data: Data[] = structuredClone(DATA);
 
-   // Pagination variables
-   currentPage: number = 1;
-   pageSize: number = 5;
-   totalItems: number = this.data.length;
- 
-   // Filter & Sort variables
-  filterText: string = '';  // Search text
-  filterColumn: string = ''; // Filter by specific column
-  sortColumn: string = 'id'; // Default sort by 'id'
+  filteredData: Data[] = DATA;  // Data that matches the search query
+  // searchText: string = '';  // Search input text
+  searchColumn: string = 'name';  // The column to search in (default: name)
+  currentPage: number = 1;  // Current page for pagination
+  itemsPerPage: number = 5;  // Items per page for pagination
+
+  sortColumn: string = 'name'; // Default sort by 'name'
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  // Get the current page of data with filtering and sorting
-  get paginatedData() {
+  // Calculate the total number of pages based on the filtered data
+  get totalPages(): number {
+    return Math.ceil(this.filteredData.length / this.itemsPerPage);
+  }
+
+  paginatedData(searchText: string = '') {
     let filteredData = this.data.filter(row => {
-      // If a column filter is selected, apply it
-      if (this.filterColumn) {
-        return row[this.filterColumn as keyof Data].toString().toLowerCase().includes(this.filterText.toLowerCase());
+      if (this.searchColumn) {
+        // Apply filter to a specific column
+        return row[this.searchColumn as keyof Data]
+          .toString()
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
       }
-      // If no column filter, apply general search across all columns
-      return Object.values(row).some(value => value.toString().toLowerCase().includes(this.filterText.toLowerCase()));
+      // If no column filter is selected, apply general search
+      return Object.values(row)
+        .some(value => value.toString().toLowerCase().includes(searchText.toLowerCase()));
     });
 
     // Sort filtered data based on selected column and direction
@@ -48,19 +54,44 @@ export class DashboardComponent {
     });
 
     // Implement pagination
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
     return sortedData.slice(startIndex, endIndex);
+  }
+
+  // Trigger the search functionality on button click
+  onSearch(searchText: string): void {
+    // You can add additional logic here if needed (e.g., reset pagination on new search)
+    this.filteredData = this.data.filter((item) => {
+      if (this.searchColumn) {
+        return item[this.searchColumn as keyof Data]
+          .toString()
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
+      }
+      return Object.values(item)
+        .some((value) => value.toString().toLowerCase().includes(searchText.toLowerCase()));
+    });
+    this.currentPage = 1; // Reset pagination to the first page after search
+  }
+
+  // Go to the previous page
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  // Go to the next page
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
   }
 
   // Change page
   goToPage(page: number) {
     this.currentPage = page;
-  }
-
-  // Get the total number of pages
-  get totalPages() {
-    return Math.ceil(this.totalItems / this.pageSize);
   }
 
   // Get the range of page numbers to display
@@ -75,10 +106,12 @@ export class DashboardComponent {
   // Change sort column and direction
   changeSort(column: string) {
     if (this.sortColumn === column) {
+      console.log('sortColumn === column', column);
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
+      console.log('sortColumn !== column', column);
       this.sortColumn = column;
-      this.sortDirection = 'asc';
+      this.sortDirection = 'desc';
     }
   }
 

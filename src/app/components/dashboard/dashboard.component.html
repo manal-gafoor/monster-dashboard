@@ -17,22 +17,27 @@
 <!-- Main Content -->
 <main class="h-full text-center flex-1">
 
-  <h1 class="text-4xl font-bold text-gray-600 text-center m-3">Stores</h1>
+  <h1 class="text-[40px] font-bold text-gray-600 text-center m-5">Stores</h1>
 
   <div class="m-3 border-[1px] border-gray-300 rounded-lg">
 
     <!-- Search and Filter section  -->
-    <div class="p-4 flex flex-col gap-y-4 justify-start items-start">
+    <section class="p-4 flex flex-col gap-y-4 justify-start items-start">
+
       <!-- Search Bar -->
       <div class="w-auto flex items-center border border-gray-300 rounded-md text-left">
         <img src="../assets/search.PNG" class="w-5 h-5 ml-2">
         <input
           type="text"
-          [(ngModel)]="filterText"
-          placeholder="Search all columns"
+          placeholder="Search by store name"
           class="p-2 w-[200px] h-[30px] focus:outline-none text-xs"
+          #search
         />
-        <button class=" text-xs bg-[#8dc63f] text-[#5c8129] p-2 rounded-tr-[5px] rounded-br-[5px]">Search</button>
+        <button (click)="onSearch(search.value)"
+          class="text-xs bg-[#8dc63f] text-[#5c8129] p-2 rounded-tr-[5px] rounded-br-[5px]"
+        >
+          Search
+        </button>
       </div>
 
       <hr class="w-full border-[1px] border-gray-200">
@@ -40,7 +45,7 @@
       <!-- Filter & Sort Bar -->
       <div class="flex justify-between">
         <!-- Filter by Column -->
-        <select [(ngModel)]="filterColumn" class="h-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <select [(ngModel)]="searchColumn" class="h-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="">Filter by column</option>
           <option value="id">ID</option>
           <option value="name">Name</option>
@@ -83,9 +88,9 @@
           </button>
         </div> -->
       </div>
-    </div>
+    </section>
     
-    <table class="min-w-full border-collapse border border-gray-300 items-stretch">
+    <table class="min-w-full border-collapse border-t border-b border-gray-300 items-stretch">
       <thead>
           <tr class="bg-[#f9fafb] border-b border-gray-300 [&>*]:text-xs [&>*]:text-gray-400">
             <th class="px-3 py-2 text-left flex-4">
@@ -114,17 +119,16 @@
             </th>
             <th class="px-4 flex-1">
               Hide
-              <img src="../assets/sort.png" class="w-4 inline-block cursor-pointer" (click)="changeSort('viewed')">
             </th>
           </tr>
       </thead>
 
       <tbody>
-          <tr *ngFor="let row of paginatedData, let i=index" class="[&>*]:border-b [&>*]:border-gray-200 [&>*]:text-xs [&>*]:text-gray-600">
-            <td class="p-3  flex-2">
+          <tr *ngFor="let row of paginatedData(search.value), let i=index" class="[&>*]:border-b [&>*]:border-gray-200 [&>*]:text-xs [&>*]:text-gray-500">
+            <td class="p-3 flex-2">
               <div class="text-left">
                 <p>{{ row.name}}</p>
-                <p>{{ row.address }}</p>
+                <p class="text-gray-400">{{ row.address }}</p>
               </div>
             </td>
             <td class="p-4 flex-2">{{ row.region }}</td>
@@ -141,43 +145,47 @@
       </tbody>
     </table>
 
-    <div class="flex justify-center items-center mt-4">
+    <!-- Pagination -->
+    <div class="flex justify-between items-center my-4 mr-3">
+      <p class="text-xs text-gray-600 px-4">Pages</p>
+      <div>
         <!-- Previous Button -->
         <button 
           (click)="goToPage(currentPage - 1)" 
           [disabled]="currentPage === 1"
-          class="px-4 py-2 mx-1 bg-blue-500 text-white rounded disabled:bg-gray-400"
+          class="px-4 py-2 border border-gray-200 text-gray-400 rounded-tl-md rounded-bl-md disabled:bg-gray-200"
         >
-          Previous
+         <
         </button>
 
         <!-- Page Number Buttons -->
         <ng-container *ngFor="let page of pageNumbers">
-            <button 
-              (click)="goToPage(page)"
-              [class.bg-blue-500]="page === currentPage"
-              [class.text-white]="page === currentPage"
-              [class.bg-gray-200]="page !== currentPage"
-              class="px-4 py-2 mx-1 rounded transition duration-300"
-            >
-              {{ page }}
-            </button>
+          <button 
+            (click)="goToPage(page)"
+            [class.bg-[#eff7e3]]="page === currentPage"
+            [class.text-[#c9d3ba]]="page === currentPage"
+            [class.bg-white]="page !== currentPage"
+            class="px-4 py-2 text-gray-400 border border-gray-200 transition duration-300"
+          >
+            {{ page }}
+          </button>
         </ng-container>
 
         <!-- Next Button -->
         <button 
-            (click)="goToPage(currentPage + 1)" 
-            [disabled]="currentPage === totalPages"
-            class="px-4 py-2 mx-1 bg-blue-500 text-white rounded disabled:bg-gray-400"
+          (click)="goToPage(currentPage + 1)" 
+          [disabled]="currentPage === totalPages"
+          class="px-4 py-2 text-gray-400 border border-gray-200 rounded-tr-md rounded-br-md disabled:bg-gray-200"
         >
-            Next
+          >
         </button>
+      </div>  
     </div>
   </div>  
 </main>
 
 <!-- Footer  -->
-<footer class="p-4 h-[64px] w-xl flex items-center justify-evenly text-gray-600">
+<footer class="h-[64px] w-xl flex items-center justify-evenly text-gray-600 border-t-[1px] border-gray-300">
     <div *ngFor="let tab of tabIcons" class="flex items-center justify-center flex-col gap-y-[2px]">
         <img src="../assets/{{tab.icon}}" class="w-[20px]">
         <p class="text-sm">{{ tab.name }}</p>

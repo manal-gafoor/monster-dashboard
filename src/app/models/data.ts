@@ -12,7 +12,7 @@ export class Data {
     ) {}
 }
 
-export const data = [
+export const DATA = [
     new Data(1, 'Alfreds Futterkiste', 'Obere Str. 57', 'Europe', 'GER', 'Maria Anders', 'Wholesale', false, true),
     new Data(2, 'Ana Trujillo', 'Avda. de la 2222', 'Central America', 'MEX', 'Ana Trujillo', 'Retail', true, true),
     new Data(3, 'Antonio Moreno', 'Mataderos 2312', 'South America', 'MEX', 'Antonio Moreno', 'Retail', false, true),
