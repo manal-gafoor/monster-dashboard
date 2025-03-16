@@ -31,4 +31,6 @@ export const DATA = [
     new Data(16, 'Drachenblut Delikatessend', 'Walserweg 21', 'Europe', 'GER', 'Sven Ottlieb', 'Retail', false, true),
     new Data(17, 'Du monde entier', '67, rue des Cinquante Otages', 'Europe', 'FRN', 'Janine Labrune', 'Retail', false, true),
     new Data(18, 'Eastern Connection', '35 King George', 'Europe', 'UK', 'Ann Devon', 'Retail', false, true),
+    new Data(19, 'Fa monde entier', '88, Cinquante Otages', 'Europe', 'FRN', 'La Qua', 'Retail', false, true),
+    new Data(20, 'Faster Connection', '53 King George V', 'Europe', 'UK', 'Charles Clay', 'Retail', false, true),
 ];

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { tabIcons } from 'src/app/models/tab-icons';
 import { Data, DATA } from 'src/app/models/data';
 
@@ -8,22 +8,31 @@ import { Data, DATA } from 'src/app/models/data';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+  @ViewChild('table') table!: ElementRef;
   tabIcons = tabIcons;
 
-  clarifiedData: Data[] = structuredClone(DATA)  // Data that will be loaded
+  processedData: Data[] = structuredClone(DATA)  // Data that will be loaded
   currentPage: number = 1;
   itemsPerPage: number = 6;
 
-  sortColumn: string = 'name'; // Default sort by 'name'
+  sortColumn: string = 'name';
   sortDirection: 'asc' | 'desc' = 'asc';
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      let tableHeight = this.table.nativeElement.offsetHeight - this.table.nativeElement.children[0].offsetHeight - this.table.nativeElement.children[2].offsetHeight;
+      this.itemsPerPage = Math.floor(tableHeight / 75);
+      console.log("table: ", this.itemsPerPage);
+    }, 0);
+  }
 
   // Search for the specified text in store names
   onSearchStore(searchText: string): void {
-    this.clarifiedData = DATA.filter(row => {
+    this.processedData = DATA.filter(row => {
       if (searchText) {
         return row['name'].toString().toLowerCase().startsWith(searchText.toLowerCase());
       }
-      // If 'store' is not the specified column, no filtering applied
+      // If search text is empty, no filtering applied
       return true;
     });
     this.currentPage = 1;
@@ -32,7 +41,7 @@ export class DashboardComponent {
   // Filter data based on selected country
   onFilterCountry(e: Event): void {
     let country = (e.target as HTMLInputElement).value;
-    this.clarifiedData = DATA.filter(row => {
+    this.processedData = DATA.filter(row => {
       if (country !== 'all') {
         return row['country'].toString().toLowerCase() === country.toLowerCase();
       }
@@ -42,8 +51,8 @@ export class DashboardComponent {
   }
 
   // Sort filtered data based on selected column and direction
-  sortedData() {
-    let sortedData = [...this.clarifiedData].sort((a, b) => {
+  sortData() {
+    let sortedData = [...this.processedData].sort((a, b) => {
       const aValue = a[this.sortColumn as keyof Data];
       const bValue = b[this.sortColumn as keyof Data];
       if (aValue < bValue) {
@@ -98,11 +107,11 @@ export class DashboardComponent {
 
   // Calculate the total number of pages based on the filtered data
   totalPages(): number {
-    return Math.ceil(this.clarifiedData.length / this.itemsPerPage);
+    return Math.ceil(this.processedData.length / this.itemsPerPage);
   }
 
   // Toggle favourite status
   toggleFavourite(i: number) {
-    this.clarifiedData[i].favourited = !this.clarifiedData[i].favourited;
+    this.processedData[i].favourited = !this.processedData[i].favourited;
   }
 }

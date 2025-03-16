@@ -19,7 +19,7 @@
 
   <h1 class="text-[40px] font-bold text-gray-600 text-center m-5">Stores</h1>
 
-  <div class="m-3 border-[1px] border-gray-300 rounded-lg h-[calc(100%-64px-64px-15px)]">
+  <div class="m-3 border-[1px] border-gray-300 rounded-lg h-[calc(100%-143px)] relative" #table>
 
     <!-- Search and Filter section  -->
     <section class="p-4 flex flex-col gap-y-4 justify-start items-start">
@@ -84,63 +84,63 @@
       </div>
     </section>
     
-    <table class="min-w-full border-collapse border-b border-gray-300 items-stretch h-[calc(100%-180px)]">
+    <table class="min-w-full border-collapse border-b border-gray-300 items-stretch table-fixed">
       <thead>
-          <tr class="bg-[#f9fafb] border-b border-gray-300 [&>*]:text-xs [&>*]:text-gray-400">
-            <th class="px-3 py-2 text-left flex-4">
+          <tr class="bg-[#f9fafb] border-b border-gray-300">
+            <th class="px-3 py-2 text-left w-[175px] text-xs text-gray-400">
               Store
               <img src="../assets/sort.png" class="w-4 inline-block cursor-pointer" (click)="changeSort('name')">
             </th>
-            <th class="px-4 flex-2">
+            <th class="px-4 text-xs text-gray-400">
               Region
               <img src="../assets/sort.png" class="w-4 inline-block cursor-pointer" (click)="changeSort('region')">
             </th>
-            <th class="px-4 flex-2">
+            <th class="px-4 text-xs text-gray-400">
               Country
               <img src="../assets/sort.png" class="w-4 inline-block cursor-pointer" (click)="changeSort('country')">
             </th>
-            <th class="px-4 py-2 flex-2">
+            <th class="px-4 py-2 text-xs text-gray-400">
               Contact
               <img src="../assets/sort.png" class="w-4 inline-block cursor-pointer" (click)="changeSort('representative')">
             </th>
-            <th class="px-4 flex-2">
+            <th class="px-4 text-xs text-gray-400">
               Type
               <img src="../assets/sort.png" class="w-4 inline-block cursor-pointer" (click)="changeSort('typeOfCustomer')">
             </th>
-            <th class="px-4 flex-2">
+            <th class=" text-xs text-gray-400">
               Favourites
               <img src="../assets/sort.png" class="w-4 inline-block cursor-pointer" (click)="changeSort('favourited')">
             </th>
-            <th class="px-4 flex-1">
+            <th class="px-2 text-xs text-gray-400">
               Hide
             </th>
           </tr>
       </thead>
 
       <tbody>
-          <tr *ngFor="let row of sortedData(), let i=index" class="h-[62px] [&>*]:border-b [&>*]:border-gray-200 [&>*]:text-xs [&>*]:text-gray-500">
-            <td class="p-3 flex-2">
+          <tr *ngFor="let row of sortData(), let i=index" class="max-h-[62px] [&>*]:border-b [&>*]:border-gray-200 [&>*]:text-xs [&>*]:text-gray-500">
+            <td class="p-4">
               <div class="text-left">
                 <p>{{ row.name}}</p>
                 <p class="text-gray-400">{{ row.address }}</p>
               </div>
             </td>
-            <td class="p-4 flex-2">{{ row.region }}</td>
-            <td class="px-4 py-2 flex-1">{{ row.country }}</td>
-            <td class="px-4 py-2 flex-1">{{ row.representative }}</td>
-            <td class="px-4 py-2 flex-1">{{ row.typeOfCustomer }}</td>
-            <td class="px-4 py-2 flex-1">
+            <td class="p-4">{{ row.region }}</td>
+            <td class="p-4">{{ row.country }}</td>
+            <td class="p-4">{{ row.representative }}</td>
+            <td class="p-4">{{ row.typeOfCustomer }}</td>
+            <td class="p-4">
               <img src="{{ row.favourited ? '../assets/star-outline.png' : '../assets/star-filled.PNG' }}"
               class="m-auto w-5" (click)="toggleFavourite(i)">
             </td>
-            <td class="px-4 py-2 flex-none"><img src="{{ row.viewed ? '../assets/eye.png' : '../assets/eye.png' }}"
+            <td class="p-4"><img src="{{ row.viewed ? '../assets/eye.png' : '../assets/eye.png' }}"
               class="m-auto w-5"></td>
           </tr>
       </tbody>
     </table>
 
     <!-- Pagination -->
-    <div class="flex justify-between items-center my-4 mr-3">
+    <div class="flex justify-between items-center my-4 mr-3 absolute bottom-0 right-0 left-0">
       <p class="text-xs text-gray-400 px-4">Pages</p>
       <div>
         <!-- Previous Button -->
