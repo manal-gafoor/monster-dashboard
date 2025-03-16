@@ -19,7 +19,7 @@ export class DashboardComponent {
   sortDirection: 'asc' | 'desc' = 'asc';
 
   ngAfterViewInit() {
-    setTimeout(() => {
+    setTimeout(() => { // Timeout set to 0, to clear NG0100 error
       let tableHeight = this.table.nativeElement.offsetHeight - this.table.nativeElement.children[0].offsetHeight - this.table.nativeElement.children[2].offsetHeight;
       this.itemsPerPage = Math.floor(tableHeight / 75);
       console.log("table: ", this.itemsPerPage);
